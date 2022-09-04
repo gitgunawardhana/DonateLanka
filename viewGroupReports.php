@@ -211,7 +211,7 @@
 					$donor_first_name = $row['first_name'];
 					$donor_last_name = $row['last_name'];
 					$mobile = $row['mobile'];
-					$donation_details = $row['Details'];
+					$donation_details = $row['details'];
 					$confirmed_date = $row['confirmed_date'];
 
 					echo '<tr class="danger">

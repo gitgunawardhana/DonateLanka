@@ -284,7 +284,7 @@
   <!-- form section end -->
 
   <!-- footer -->
-  <div class="footer-div">
+  <div class="footer-div" style="bottom: 0;">
     <?php require_once("./footer.php"); ?>
   </div>
   <!-- footer end -->

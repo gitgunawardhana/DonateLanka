@@ -195,7 +195,7 @@
           <h3 class="section-title">Our Address</h3>
           <p>We’d love to hear from you! Send us your questions or comments and someone from our team will be in touch shortly.</p>
           <ul class="contact-info">
-            <li><i class="fa-solid fa-location-dot"></i> &nbsp;&nbsp;198 West 21th Street, Ragama, Srilanaka</li>
+            <li><i class="fa-solid fa-location-dot"></i> &nbsp;&nbsp;198 West 21th Street, Matara, Sri Lanaka</li>
             <li><i class="fa-solid fa-phone-volume"></i> &nbsp;&nbsp;+ 9775 2355 98</li>
             <li><i class="fa-solid fa-envelope"></i><a href="#"> &nbsp;&nbsp;info@yoursite.com</a></li>
             <li><i class="fa-solid fa-earth-asia"></i><a href="#"> &nbsp;&nbsp;www.yoursite.com</a></li>

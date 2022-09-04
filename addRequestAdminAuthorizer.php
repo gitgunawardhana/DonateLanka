@@ -240,6 +240,7 @@
           <div  style="width: 100%;">
             <label for="inputNIC" class="form-label">NIC</label>
             <input type="text" class="form-control" id="inputNIC" name="nic" maxlength="12" required>
+            <div id="nicHelp" class="form-text"><label id="error_nic" style="color: red;"></label></div>
           </div>
         </div>
         <div class="mb-3" style="display: flex;">
@@ -257,7 +258,7 @@
           <div style="width: 100%;">
             <label for="inputMobile" class="form-label">Mobile</label>
             <input type="phone" class="form-control" id="inputMobile" aria-describedby="mobileHelp" name="mobile" maxlength="10" maxlength="10" required>
-            <div id="mobileHelp" class="form-text">We'll never share your mobile number with anyone else.</div>
+            <div id="mobileHelp" class="form-text">We'll never share your mobile number with anyone else.<br><label id="error_mobile" style="color: red;"></label></div>
           </div>
           <div style="width: 50px;"></div>
           <div style="width: 100%;">
@@ -331,6 +332,26 @@
   </div>
 
   <script>
+    $("#inputNIC").keyup(function(){
+        var email = $("#inputNIC").val();
+        
+        if(email.length>10){
+          if(!/[0-9]{12}/.test(email)){
+            $("#error_nic").text(email+" is not a valid nic");
+            email.focus;
+          }else{
+            $("#error_nic").text("");
+          }
+        }else{
+          if(!/[0-9]{9}[v]/.test(email)){
+            $("#error_nic").text(email+" is not a valid nic");
+            email.focus;
+          }else{
+            $("#error_nic").text("");
+          }
+        }
+    });
+    
     $("#inputEmail").keyup(function(){
         var email = $("#inputEmail").val();
         var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -341,6 +362,19 @@
         //return false;
       } else {
         $("#error_email").text("");
+      }
+    });
+    
+    $("#inputMobile").keyup(function(){
+        var email = $("#inputMobile").val();
+        var filter = /[0][0-9]{9}/;
+        if (!filter.test(email)) {
+        //alert('Please provide a valid email address');
+        $("#error_mobile").text(email+" is not a valid mobile number");
+        email.focus;
+        //return false;
+      } else {
+        $("#error_mobile").text("");
       }
     });
   </script>

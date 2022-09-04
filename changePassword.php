@@ -41,7 +41,7 @@
     $tbl = "requester";
   }
 
-  $result = mysqli_query($con, $sql);  
+  $result = mysqli_query($con, $sql);
   $row = mysqli_fetch_array($result, MYSQLI_ASSOC);  
   $count = mysqli_num_rows($result);
 
@@ -52,8 +52,13 @@
 		$old_pw_frm_user = $_POST['o_password'];
 		$password = $_POST['n_password'];
 		$Cpassword = $_POST['cn_password'];
-
-		if($old_pw != $old_pw_frm_user){
+// if(password_verify($password, $row["password"])){
+//           $user_verified = 1;
+//           break;
+//         }else{
+//           $user_verified = 0;
+//         }
+		if(!password_verify($old_pw_frm_user, $old_pw)){
       setcookie('message', "Passwords Not Matched.", time()+3);
       header("location:./changePassword.php");
 			// echo '<script>alert("Old Password Not Matched!")</script>';
@@ -63,7 +68,8 @@
         header("location:./changePassword.php");
 				// echo '<script>alert("Passwords Not Matched!")</script>';
 			}else{
-				$qupdate = mysqli_query($con, "UPDATE $tbl SET password = '$password' WHERE id = '$user_id'");
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+				$qupdate = mysqli_query($con, "UPDATE $tbl SET password = '$hashedPassword' WHERE id = '$user_id'");
 
 				if($qupdate ==1){
           setcookie('message', "Passwords Changed Successfully.", time()+3);
@@ -235,7 +241,7 @@
   <!-- form section end -->
 
   <!-- footer -->
-  <div class="footer-div">
+  <div class="footer-div" style="bottom: 0;">
     <?php require_once("./footer.php"); ?>
   </div>
   <!-- footer end -->

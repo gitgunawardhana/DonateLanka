@@ -37,7 +37,8 @@
 			$phone = $row["mobile"];
 			$email = $row["email"];
 			$address = $row["address"];
-			$occu = $row["occupation"];
+			$occupation = $row["occupation"];
+      $old_profile_picture = $row["profile_picture"];
 		}
 	}
 
@@ -53,10 +54,19 @@
 		$address = $_POST['address'];
 		$occupation = $_POST['occupation'];
 		$blood_group = $_POST['blood_group'];
-
-
-    $insert1 = "UPDATE `donor` SET nic = '$nic' ,first_name='$first_name',last_name='$last_name',gender='$gender',age='$age',blood_group='$blood_group',mobile='$mobile',email='$email',address='$address',occupation='$occupation' WHERE id='$user_id'";
-
+    
+    if(empty($_FILES["profilePicture"]["name"])){
+      $insert1 = "UPDATE `requester` SET nic = '$nic' ,first_name='$first_name',last_name='$last_name',gender='$gender',age='$age',mobile='$mobile',email='$email',address='$address',occupation='$occupation' WHERE id='$user_id'";
+    }else{
+      $profilePicture = $_FILES["profilePicture"]["name"];
+      $dst = "./Upload/Avatar/Authorizer/".$_SESSION['user_id'].$profilePicture;
+      $dst_db = "Upload/Avatar/Authorizer/".$_SESSION['user_id'].$profilePicture;
+      $_SESSION["profile_picture"] = $dst_db;
+      unlink("./{$old_profile_picture}");
+      move_uploaded_file($_FILES['profilePicture']['tmp_name'], $dst);
+  
+      $insert1 = "UPDATE `requester` SET nic = '$nic' ,first_name='$first_name',last_name='$last_name',gender='$gender',age='$age',mobile='$mobile',email='$email',address='$address',occupation='$occupation',profile_picture='$dst_db' WHERE id='$user_id'";
+    }
     $query = mysqli_query($con, $insert1) or die(mysqli_error($con));
 
     if($query == 1){
@@ -173,7 +183,7 @@
       }
     ?>
     <h2 style="padding-bottom: 20px;"><b><?php if($_SESSION["usertype"] == "admin"){ ?>View Donor Details<?php }else {?>Update Donor Details<?php } ?></b></h2>
-    <form action="#" method="POST">
+    <form action="#" method="POST" enctype="multipart/form-data">
       <div class="mb-3" style="display: flex;">
         <div style="width: 100%;">
           <label for="inputFirstName" class="form-label">First Name</label>
@@ -236,9 +246,16 @@
         <label for="inputAddress" class="form-label">Address</label>
         <input type="text" class="form-control" id="inputAddress" name="address" value="<?php echo $address; ?>" required <?php if($_SESSION["usertype"] == "admin"){ ?> disabled <?php } ?>>
       </div>
-      <div class="mb-3">
-        <label for="inputOccupation" class="form-label">Occupation</label>
-        <input type="text" class="form-control" id="inputOccupation" name="occupation" value="<?php echo $occu; ?>" required <?php if($_SESSION["usertype"] == "admin"){ ?> disabled <?php } ?>>
+      <div class="mb-3" style="display: flex;">
+        <div style="width: 100%;">
+          <label for="inputOccupation" class="form-label">Occupation</label>
+          <input type="text" class="form-control" id="inputOccupation" name="occupation" value="<?php echo $occupation; ?>" required <?php if($_SESSION["usertype"] == "admin"){ ?> disabled <?php } ?>>
+        </div>
+        <div style="width: 50px;"></div>
+        <div style="width: 100%;">
+          <label class="form-label">Choose New Profile Picture</label>
+          <input type="file" class="form-control" placeholder="Upload your image" name="profilePicture">
+        </div>
       </div>
       <button type="submit" class="btn btn-primary container-fluid" style="background-color: #000; height: 50px;"  name ="back" value="Back">Back</button>
       <?php if($usertype != "admin") {?>

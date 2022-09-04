@@ -62,16 +62,20 @@
 		$address_residential = $_POST['address_residential'];
 		$address_official = $_POST['address_official'];
 		$occupation = $_POST['occupation'];
-
-    $profilePicture = $_FILES["profilePicture"]["name"];
-    $dst = "./Upload/Avatar/Authorizer/".$_SESSION['user_id'].$profilePicture;
-    $dst_db = "Upload/Avatar/Authorizer/".$_SESSION['user_id'].$profilePicture;
-    $_SESSION["profile_picture"] = $dst_db;
-    unlink("./{$old_profile_picture}");
-    move_uploaded_file($_FILES['profilePicture']['tmp_name'], $dst);
-
-    $insert1 = "UPDATE `authorizer` SET nic = '$nic' ,first_name='$first_name',last_name='$last_name',gender='$gender',age='$age',profile_picture='$dst_db',telephone_mobile ='$telephone_mobile',telephone_home = '$telephone_home',address_residential = '$address_residential',address_official = '$address_official' ,email='$email',occupation='$occupation' WHERE id='$user_id'";
-
+    
+    if(empty($_FILES["profilePicture"]["name"])){
+      $insert1 = "UPDATE `requester` SET nic = '$nic' ,first_name='$first_name',last_name='$last_name',gender='$gender',age='$age',mobile='$mobile',email='$email',address='$address',occupation='$occupation' WHERE id='$user_id'";
+    }else{
+      $profilePicture = $_FILES["profilePicture"]["name"];
+      $dst = "./Upload/Avatar/Authorizer/".$_SESSION['user_id'].$profilePicture;
+      $dst_db = "Upload/Avatar/Authorizer/".$_SESSION['user_id'].$profilePicture;
+      $_SESSION["profile_picture"] = $dst_db;
+      unlink("./{$old_profile_picture}");
+      move_uploaded_file($_FILES['profilePicture']['tmp_name'], $dst);
+  
+      $insert1 = "UPDATE `requester` SET nic = '$nic' ,first_name='$first_name',last_name='$last_name',gender='$gender',age='$age',mobile='$mobile',email='$email',address='$address',occupation='$occupation',profile_picture='$dst_db' WHERE id='$user_id'";
+    }
+    
     $query = mysqli_query($con, $insert1) or die(mysqli_error($con));
 
     if($query == 1){	
@@ -137,7 +141,7 @@
         <i class="fa-solid fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-        <ul class="navbar-nav ml-auto mb-2 mb-lg-0" <?php if($_SESSION['usertype'] != "user"){ ?> style="margin-right: 20px; border-right:#F18259 solid" <?php } ?>>
+        <ul class="navbar-nav ml-auto mb-2 mb-lg-0" <?php if($_SESSION['usertype'] != "user"){ ?> style="margin-right: 20px;" <?php } ?>>
           <?php if($usertype == "admin") {?> 
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="./Admin/adminHome.php">Dashboard</a>
@@ -167,8 +171,8 @@
           <?php }  ?>
         </ul>
         <?php if($_SESSION['usertype'] != "user"){ ?>
-          <a class="nav-link" href="" style="padding-inline: inherit;">
-            <img src=<?php echo "./{$_SESSION['profile_picture']}" ?> alt="Avatar" class="avatar cst-avatar" style="border-radius: 100px; padding:0px !important" width="50px">
+          <a class="nav-link" href="" style="padding-inline: inherit; padding-left: 20px; height:80px">
+            <img src=<?php echo "./{$_SESSION['profile_picture']}" ?> alt="Avatar" class="avatar cst-avatar" style="border-radius: 100px; padding:0px !important; object-fit: cover; border:#F18259 solid 2px; margin: 0px 11px;" width="55px" height="55px">
             <p class="text-center" style="font-size: 12px;"><b><?php echo $_SESSION['username'];?></b></p>
           </a>
         <?php } ?>
