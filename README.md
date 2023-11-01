@@ -2,11 +2,13 @@
 
 DonateLanka is a web-based platform developed to streamline the process of donations and requests, fostering a sense of community and enhancing communication among users.
 
+![DonateLanka Video](https://github.com/gitgunawardhana/DonateLanka/assets/73461067/55dc48f0-1167-478d-ba95-a16d146c4de6)
+
 
 ## Features
 
 - **User Roles:** DonateLanka facilitates four user roles: authorizer, donor, requester, and administrator. Each role has specific privileges and responsibilities.
-- **User Registration:** Users can easily register on the platform, providing necessary details to create their accounts.
+- **User Registration:** Users can easily register on the platform, providing the necessary details to create their accounts.
 - **Donation Requests:** Requesters can seek donations for various causes, creating detailed requests to inform potential donors.
 - **Contribution:** Donors can browse through requests and contribute to causes they are passionate about, making a positive impact.
 - **Chat Platform:** DonateLanka features an integrated chat platform, allowing users to communicate directly, fostering a sense of community and trust.
